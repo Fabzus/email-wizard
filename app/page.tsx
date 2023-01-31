@@ -210,7 +210,6 @@ export default function Home() {
                     values["subject"],
                     values["sender"],
                     values["extraInfo"],
-                    values["date"],
                     values["funny"]
                   );
                   resetForm();
