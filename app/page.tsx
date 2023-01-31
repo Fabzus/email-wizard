@@ -209,6 +209,7 @@ export default function Home() {
                     values["recipientName"],
                     values["subject"],
                     values["sender"],
+                    values["extraInfo"],
                     values["date"],
                     values["funny"]
                   );
