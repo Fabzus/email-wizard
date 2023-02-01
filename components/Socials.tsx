@@ -96,7 +96,7 @@ export default function Socials() {
     >
       <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={"20"} mx={"auto"}>
         {socials.map((cardInfo, key) => (
-          <SocialCard key={key} {...cardInfo} />
+          <SocialCard {...cardInfo} key={key} />
         ))}
       </SimpleGrid>
       <Box>
