@@ -329,6 +329,8 @@ export default function Home() {
             )}
           </div>
           <Divider />
+
+          <Socials />
         </VStack>
       </Flex>
     </main>
