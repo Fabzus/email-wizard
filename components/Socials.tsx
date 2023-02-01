@@ -20,6 +20,7 @@ const socials = [
     shadow: "none",
     borderRadius: "none",
     url: "https://www.buymeacoffee.com/balogalin",
+    key: 1,
   },
   {
     header: "You think we could work togheter?",
@@ -30,6 +31,7 @@ const socials = [
     shadow: "base",
     borderRadius: "full",
     url: "#/",
+    key: 0,
   },
 ];
 
@@ -41,10 +43,12 @@ interface SocialProps {
   shadow: string;
   borderRadius: string;
   url: string;
+  key: number;
 }
 
 function SocialCard(props: SocialProps) {
-  const { content, avatar, header, alt, shadow, borderRadius, url } = props;
+  const { content, avatar, header, alt, shadow, borderRadius, url, key } =
+    props;
   return (
     <Link href={url} isExternal>
       <Flex
@@ -92,7 +96,7 @@ export default function Socials() {
     >
       <SimpleGrid columns={{ base: 1, xl: 2 }} spacing={"20"} mx={"auto"}>
         {socials.map((cardInfo) => (
-          <SocialCard {...cardInfo} />
+          <SocialCard key={cardInfo.key} {...cardInfo} />
         ))}
       </SimpleGrid>
       <Box>
