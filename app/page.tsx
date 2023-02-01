@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Formik, Field } from "formik";
 import Features from "../components/Features";
+import Socials from "../components/Socials";
 import {
   Box,
   Button,
@@ -17,6 +18,8 @@ import {
   Divider,
   Checkbox,
   useToast,
+  Radio,
+  RadioGroup,
 } from "@chakra-ui/react";
 
 import { SelectControl } from "formik-chakra-ui";
@@ -36,6 +39,7 @@ export default function Home() {
     sender: "",
     addExtraInfo: false,
     extraInfo: "",
+    length: "long",
     funny: false,
   };
 
@@ -82,6 +86,7 @@ export default function Home() {
     subject: string,
     sender: string,
     extraInfo: string,
+    length: string,
     funny: boolean
   ) {
     toast({
@@ -92,15 +97,17 @@ export default function Home() {
       isClosable: true,
     });
 
-    const emailTemplate = `Write me a [typeof] letter for my [recipient] named [name] about [subject] from [sender]
+    const emailTemplate = `Write me a [typeof] email for my [recipient] named [name] about [subject] from [sender]
 
     where typeof is ${typeOf},
     the recipient is ${recipient},
     named ${recipientName},
     the subject ${subject},
-    sender is ${sender}`;
+    sender is ${sender}
+    
+    make it ${length}`;
 
-    const emailTemplateFunny = `Write me a [typeof] letter for my [recipient] named [name] about [subject] from [sender]
+    const emailTemplateFunny = `Write me a [typeof] email for my [recipient] named [name] about [subject] from [sender]
 
     where typeof is ${typeOf},
     the recipient is ${recipient},
@@ -108,6 +115,7 @@ export default function Home() {
     the subject ${subject},
     sender is ${sender}
 
+    make it ${length}
     make it funny!`;
 
     if (funny) {
@@ -180,6 +188,7 @@ export default function Home() {
                     values["subject"],
                     values["sender"],
                     values["extraInfo"],
+                    values["length"],
                     values["funny"]
                   );
                   resetForm();
@@ -258,9 +267,18 @@ export default function Home() {
                         />
                         <FormErrorMessage>{errors.subject}</FormErrorMessage>
                       </FormControl>
+                      <FormControl isRequired>
+                        <FormLabel htmlFor="length">
+                          How about the length?
+                        </FormLabel>
+                        <SelectControl name="length">
+                          <option value="long">Make it long</option>
+                          <option value="short">Keep it short</option>
+                        </SelectControl>
+                        <FormErrorMessage>{errors.length}</FormErrorMessage>
+                      </FormControl>
                       {values.typeOf !== "formal" && (
                         <>
-                          {" "}
                           <FormControl>
                             <Field
                               as={Checkbox}
@@ -270,7 +288,7 @@ export default function Home() {
                             >
                               Would you like to make it funny?
                             </Field>
-                          </FormControl>{" "}
+                          </FormControl>
                         </>
                       )}
                       <Button type="submit" colorScheme="purple" width="full">
@@ -300,6 +318,7 @@ export default function Home() {
                 p={6}
                 rounded="md"
                 display="block"
+                w="100%"
                 maxW={1200}
                 h="auto"
               >
