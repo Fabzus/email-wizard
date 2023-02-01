@@ -1,7 +1,5 @@
 import {
   Container,
-  SimpleGrid,
-  Image,
   Flex,
   Heading,
   Text,
@@ -44,7 +42,11 @@ const Feature = ({ text, icon, iconBg }: FeatureProps) => {
 
 export default function Features() {
   return (
-    <Container maxW={"5xl"} py={12}>
+    <Container
+      maxW={"5xl"}
+      py={12}
+      color={useColorModeValue("gray.700", "gray.700")}
+    >
       <Stack spacing={4}>
         <Text
           textTransform={"uppercase"}

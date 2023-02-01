@@ -14,15 +14,8 @@ import {
   Text,
   useColorModeValue,
   FormErrorMessage,
-  Stack,
   Divider,
   Checkbox,
-  Fade,
-  ScaleFade,
-  Slide,
-  SlideFade,
-  useDisclosure,
-  Collapse,
   useToast,
 } from "@chakra-ui/react";
 
@@ -30,15 +23,10 @@ import { SelectControl } from "formik-chakra-ui";
 
 export default function Home() {
   const [gratitude, setGratitude] = useState("");
-  const [gratitudeLoading, setGratitudeLoading] = useState(false);
-  const [gratitudeLoadingError, setGratitudeLoadingError] = useState(false);
 
-  const [email, setEmail] = useState("");
-  const [emailLoading, setEmailLoading] = useState(false);
-  const [emailLoadingError, setEmailLoadingError] = useState(false);
+  const [generatedEmail, setGeneratedEmail] = useState("");
 
   const toast = useToast();
-  const { isOpen, onToggle } = useDisclosure();
 
   const initialValuesEmail = {
     typeOf: "informal",
@@ -53,11 +41,7 @@ export default function Home() {
 
   async function repeat(prompt: string) {
     setGratitude("");
-    setGratitudeLoadingError(false);
-    setGratitudeLoading(true);
-    setEmail("");
-    setEmailLoading(false);
-    setEmailLoadingError(false);
+    setGeneratedEmail("");
 
     const response = await fetch("/api/generate", {
       method: "POST",
@@ -87,10 +71,8 @@ export default function Home() {
       const { value, done: doneReading } = await reader.read();
       done = doneReading;
       const chunkValue = decoder.decode(value);
-      setGratitude((prev) => prev + chunkValue);
+      setGeneratedEmail((prev) => prev + chunkValue);
     }
-
-    setGratitudeLoading(false);
   }
 
   async function handleSubmit(
@@ -110,20 +92,18 @@ export default function Home() {
       isClosable: true,
     });
 
-    const emailTemplate = `Write me a [typeof] letter for my [reciver] named [name] about [subject] from [sender]
+    const emailTemplate = `Write me a [typeof] letter for my [recipient] named [name] about [subject] from [sender]
 
     where typeof is ${typeOf},
-    the reciver is ${recipient},
+    the recipient is ${recipient},
     named ${recipientName},
     the subject ${subject},
-    sender is ${sender}
-    
-    please add '\n' where needed`;
+    sender is ${sender}`;
 
-    const emailTemplateFunny = `Write me a [typeof] letter for my [reciver] named [name] about [subject] from [sender]
+    const emailTemplateFunny = `Write me a [typeof] letter for my [recipient] named [name] about [subject] from [sender]
 
     where typeof is ${typeOf},
-    the reciver is ${recipient},
+    the recipient is ${recipient},
     named ${recipientName},
     the subject ${subject},
     sender is ${sender}
@@ -135,18 +115,12 @@ export default function Home() {
         repeat(emailTemplateFunny);
       } catch (error) {
         console.error(error);
-        setGratitudeLoadingError(true);
-      } finally {
-        setGratitudeLoading(false);
       }
     } else {
       try {
         repeat(emailTemplate);
       } catch (error) {
         console.error(error);
-        setGratitudeLoadingError(true);
-      } finally {
-        setGratitudeLoading(false);
       }
     }
   }
@@ -154,15 +128,16 @@ export default function Home() {
   return (
     <main>
       <Flex
-        p={5}
+        p={2}
         bg={useColorModeValue("gray.50", "gray.700")}
         color={useColorModeValue("gray.700", "gray.200")}
         align="center"
         justify="center"
         h="100%"
+        w="100%"
       >
         <VStack spacing={4} align="center" textAlign={"center"}>
-          <Box p={{ base: 1, md: 2 }}>
+          <Box p={{ base: 4, md: 12 }}>
             <Heading
               fontWeight={700}
               fontSize={{ base: "3xl", sm: "4xl", md: "6xl" }}
@@ -186,16 +161,11 @@ export default function Home() {
               {" take the credit."}
             </Heading>
           </Box>
-          <Stack
-            color={useColorModeValue("gray.700", "gray.700")}
-            spacing={8}
-            direction={{ lg: "row", md: "column", sm: "column" }}
-            w="auto"
-          >
+          <div className="hero_container">
             <Box
               p={6}
               rounded="md"
-              minW={400}
+              minW={{ lg: 400, md: 300 }}
               w={{ lg: 400, md: "auto", sm: "auto" }}
               bg="white"
               color="black"
@@ -311,7 +281,7 @@ export default function Home() {
                 )}
               </Formik>
             </Box>
-            {!gratitude && (
+            {!generatedEmail && (
               <Box
                 bg="white"
                 p={6}
@@ -324,7 +294,7 @@ export default function Home() {
                 <Features />
               </Box>
             )}
-            {gratitude && (
+            {generatedEmail && (
               <Box
                 bg="white"
                 p={6}
@@ -333,13 +303,12 @@ export default function Home() {
                 maxW={1200}
                 h="auto"
               >
-                <Text fontWeight={700} fontSize="2xl" color={"purple.400"}>
-                  {gratitude}
+                <Text fontWeight={700} fontSize="2xl" color={"gray.700"}>
+                  {generatedEmail}
                 </Text>
               </Box>
             )}
-          </Stack>
-
+          </div>
           <Divider />
         </VStack>
       </Flex>
