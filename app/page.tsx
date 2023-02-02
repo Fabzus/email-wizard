@@ -105,6 +105,10 @@ export default function Home() {
     the subject ${subject},
     sender is ${sender}
     
+    i want it like this 
+    Subject: [you generate this]
+    Content: [you generate this]
+
     make it ${length}`;
 
     const emailTemplateFunny = `Write me a [typeof] email for my [recipient] named [name] about [subject] from [sender]
@@ -115,8 +119,12 @@ export default function Home() {
     the subject ${subject},
     sender is ${sender}
 
+    i want it like this 
+    Subject: [you generate this]
+    Content: [you generate this]
+
     make it ${length}
-    make it funny!`;
+    please make it funny!`;
 
     if (funny) {
       try {
